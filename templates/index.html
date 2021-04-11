@@ -1,0 +1,19 @@
+{% if session.username %}
+<p>Olet kirjautuneena nimellä {{ session.username }}</p>
+<a href="/logout">Kirjaudu ulos</a>
+Alueet:
+<hr>
+{% for topic in topics %}
+{{ topic[1] }} <br>
+<a href="/topic/{{ topic[0] }}">Tarkastele ketjuja</a> <br>
+<hr>
+{% endfor %}
+{% else %}
+<form action="/login" method="POST">
+<p>Käyttäjätunnus:<br>
+<input type="text" name="username"></p>
+<p>Salasana:<br>
+<input type="password" name="password"></p>
+<input type="submit" value="Kirjaudu">
+<a href="/sign_up1">Eikö sinulla ole käyttäjää? Luo käyttäjä</a> <br>
+{% endif %}
