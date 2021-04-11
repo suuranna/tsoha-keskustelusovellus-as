@@ -1,5 +1,22 @@
 # Tietokantasovellus-Anna-Suuronen-2021
+## Missä vaiheessa sovellukseni on?
+Tällä hetkellä sovelluksestani puuttuu ylläpitäjä-jutut ja 
+kommentointimahdollisuus. Lisäksi käyttäjätunnuksen 
+luomisessa tulee sellainen virhe, että samalle merkkijonolle/salasanalle 
+lasketaan eri hajautusarvot, jolloin eri käyttäjillä voi olla sama salasana.
+Sunnuntain 11.4 palautukseen en ehtinyt, joten katsotaan seuraavassa 
+palautuksessa 25.4.
 
+Painin tällä hetkellä herokun kanssa, joten linkkiä herokuun ei ole.  
+
+Tuli vähän mutkia matkaan etärepostorion kanssa, minkä takia 
+Labtoolissa on useasti vaihdettu repositorion osoite. Lisäksi nyt 
+etärepositoriossa on sellaisia tiedostoja, mitä siellä ei pitäisi olla,
+mutta jatkossa osaan tehdä .gitignore-tiedoston ja lisätä sinne 
+tiettyjen tiedostojen nimet hyvissä ajoissa, jotta ei-halutut-tiedostot 
+eivät tule etärepositorioon.
+
+## Keskustelusovellus
 Aion tehdä materiaalissa esitellyn keskustelusovelluksen. Näillä näkymin aion tehdä sovelluksen seuraavilla ominaisuuksilla, mutta voi olla mahdollista, että lisään joitakin pieniä lisäjuttuja matkalla tai muutan jotakin vähän.
 
 
