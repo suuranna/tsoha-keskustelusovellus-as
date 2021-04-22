@@ -7,10 +7,10 @@
 <a href="/new_chain/{{ topic[1] }}">Aloita uusi ketju</a> <br>
 <hr>
 {% for chain in chains %}
-Otsikko: {{ chain[1] }} <br>
 {% for message in opening_messages %}
 {% if message[2] == chain[0] %}
-{{ message[1] }} | <a href="/chain/{{ chain[0] }}">Tarkastele ketjua</a><br>
+Päiväys{{ message[1] }} | <a href="/chain/{{ chain[0] }}">Tarkastele ketjua</a><br>
+Otsikko: {{ chain[1] }} <br>
 Aloitusviesti: {{ message[0] }} <br>
 <p> </p>
 {% endif %}

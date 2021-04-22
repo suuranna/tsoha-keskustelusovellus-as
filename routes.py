@@ -125,6 +125,6 @@ def chain(id):
     messages = result.fetchall()
     sql = "select id, username from users"
     result = db.session.execute(sql)
-    usernames = result.fetchone()[0]
+    usernames = result.fetchall()
     return render_template("chain.html", id=id, username=username, opening_message=opening_message, title=title, messages=messages, usernames=usernames)
 

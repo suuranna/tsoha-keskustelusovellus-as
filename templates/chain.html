@@ -1,9 +1,8 @@
 <p>Olet kirjautuneena nimellä {{ session.username }}
 <a href="/logout">Kirjaudu ulos</a></p>
-Ketjun numero {{ id }}<br>
-Ketjun otsikko: {{ title }}<br>
 Ketjun aloittaja: {{ username }} | Päiväys: {{ opening_message[1] }}<br>
-Aloitusviesti: {{ opening_message[0] }}<br>
+Ketjun otsikko: {{ title }}<br>
+Aloitusviesti: <br> {{ opening_message[0] }}<br>
 Kommentit:<br>
 <a href="/new_comment/{{ id }}">Uusi kommentti</a> <br>
 <hr>
