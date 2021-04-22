@@ -6,7 +6,6 @@ from db import db
 @app.route("/")
 def index():
     sql = "select id, topic from topics where public=True"
-    print(sql)
     result = db.session.execute(sql)
     topics = result.fetchall()
     return render_template("index.html",topics=topics)
@@ -124,7 +123,7 @@ def chain(id):
     sql = "select content, user_id, posting_date from messages where chain_id=:id and begining=False"
     result =db.session.execute(sql, {"id":id})
     messages = result.fetchall()
-    sql = "select user_id, username from users"
+    sql = "select id, username from users"
     result = db.session.execute(sql)
     usernames = result.fetchone()[0]
     return render_template("chain.html", id=id, username=username, opening_message=opening_message, title=title, messages=messages, usernames=usernames)
