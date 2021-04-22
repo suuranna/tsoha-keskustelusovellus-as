@@ -5,7 +5,7 @@ from db import db
 
 @app.route("/")
 def index():
-    sql = "select id, topic from topics"
+    sql = "select id, topic from topics where public=True"
     result = db.session.execute(sql)
     topics = result.fetchall()
     return render_template("index.html",topics=topics)
