@@ -5,6 +5,17 @@ Ketjun otsikko: {{ title }}<br>
 Ketjun aloittaja: {{ username }} | Päiväys: {{ opening_message[1] }}<br>
 Aloitusviesti: {{ opening_message[0] }}<br>
 Kommentit:<br>
+<a href="/new_comment/{{ topic[1] }}">Uusi kommentti</a> <br>
 <hr>
+{% for message in messages %}
+<hr>
+{% for username in usernames %}
+{% if message[1] == username[0] %}
+{{ message[1] }} | <a href="/chain/{{ chain[0] }}">Tarkastele ketjua</a><br>
+Käyttäjältä: {{ username[1] }} | Päiväys: {{ message[2] }}<br>
+Viesti: <br> {{ message[0] }} <br>
+<p> </p>
+{% endif %}
+{% endfor %}
 
 

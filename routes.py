@@ -6,6 +6,7 @@ from db import db
 @app.route("/")
 def index():
     sql = "select id, topic from topics where public=True"
+    print(sql)
     result = db.session.execute(sql)
     topics = result.fetchall()
     return render_template("index.html",topics=topics)
@@ -70,6 +71,10 @@ def topic(id):
     amount = result.fetchone()[0]
     return render_template("topic.html", topic=topic, chains=chains, opening_messages=opening_messages, amount=amount, id=id)
 
+@app.route("/new_comment/<int:id>")
+def new_comment(id):
+    return render_template("new_comment.html", id=id)
+
 @app.route("/new_chain/<int:id>")
 def new_chain(id):
     return render_template("new_chain.html", id=id)
@@ -84,11 +89,23 @@ def create_chain(id):
     title = request.form["title"]
     sql = "insert into chains (topics_id, user_id, title) values (:id, :user_id, :title) returning id"
     result = db.session.execute(sql, {"id":id, "user_id":user_id, "title":title})
-    topics_id = result.fetchone()[0]
-    sql = "insert into messages (content, user_id, posting_date, begining, chain_id) values (:content, :user_id, NOW(), True, :topics_id) returning id"
-    result = db.session.execute(sql, {"content":content, "user_id":user_id, "topics_id":topics_id})
+    chain_id = result.fetchone()[0]
+    sql = "insert into messages (content, user_id, posting_date, begining, chain_id) values (:content, :user_id, NOW(), True, :chain_id) returning id"
+    result = db.session.execute(sql, {"content":content, "user_id":user_id, "chain_id":chain_id})
     db.session.commit()
     return redirect("/topic/"+str(id))
+
+@app.route("/create_comment/<int:id>", methods=["POST"])
+def create_comment(id):
+    username = session["username"]
+    sql = "select id from users where username=:username"
+    result = db.session.execute(sql, {"username":username})
+    user_id = result.fetchone()[0]
+    content = request.form["content"]
+    sql = "insert into messages (content, user_id, posting_date, begining, chain_id) values (:content, :user_id, NOW(), False, :id)"
+    result = db.session.execute(sql, {"content":content, "user_id":user_id, "id":id})
+    db.session.commit()
+    return redirect("/chain/"+str(id))
 
 @app.route("/chain/<int:id>")
 def chain(id):
@@ -104,6 +121,11 @@ def chain(id):
     sql = "select title from chains where id=:id"
     result = db.session.execute(sql, {"id":id})
     title = result.fetchone()[0]
-    return render_template("chain.html", id=id, username=username, opening_message=opening_message, title=title)
-
+    sql = "select content, user_id, posting_date from messages where chain_id=:id and begining=False"
+    result =db.session.execute(sql, {"id":id})
+    messages = result.fetchall()
+    sql = "select user_id, username from users"
+    result = db.session.execute(sql)
+    usernames = result.fetchone()[0]
+    return render_template("chain.html", id=id, username=username, opening_message=opening_message, title=title, messages=messages, usernames=usernames)
 
