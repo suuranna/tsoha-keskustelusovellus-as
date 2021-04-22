@@ -10,9 +10,9 @@ Kommentit:<br>
 <hr>
 {% for username in usernames %}
 {% if message[1] == username[0] %}
-{{ message[1] }} | <a href="/chain/{{ id }}">Tarkastele ketjua</a><br>
 Käyttäjältä: {{ username[1] }} | Päiväys: {{ message[2] }}<br>
 Viesti: <br> {{ message[0] }} <br>
+<hr>
 <p> </p>
 {% endif %}
 {% endfor %}
