@@ -25,7 +25,7 @@ def login():
             session["username"] = username
             return redirect("/")
         else:
-            return render_tempalte("login_failed.html")
+            return render_template("login_failed.html")
 
 @app.route("/sign_up1")
 def sign_up1():
