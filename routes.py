@@ -112,7 +112,7 @@ def chain(id):
     result = db.session.execute(sql, {"id":id})
     user_id = result.fetchone()[0]
     sql = "select username from users where id=:id"
-    result = db.session.execute(sql, {"id":id})
+    result = db.session.execute(sql, {"user_id":user_id})
     username = result.fetchone()[0]
     sql = "select content, posting_date from messages where chain_id=:id and begining=True"
     result =db.session.execute(sql, {"id":id})
