@@ -18,17 +18,17 @@ def login():
     result = db.session.execute(sql, {"username":username})
     user = result.fetchone()
     if user == None:
-        return render_template("login_failed.html")
+        return render_template("error.html", message="Käyttäjänimi tai salasana on väärä", route="/")
     else:
         hash_value = user[0]
         if check_password_hash(hash_value,password):
             session["username"] = username
             return redirect("/")
         else:
-            return render_template("login_failed.html")
+            return render_template("error.html", message="Käyttäjänimi tai salasana on väärä", route="/")
 
-@app.route("/sign_up1")
-def sign_up1():
+@app.route("/signing_up")
+def signing_up():
     return render_template("sign_up.html")
 
 @app.route("/sign_up", methods=["POST"])
@@ -36,7 +36,7 @@ def sign_up():
     username = request.form["username"]
     password = request.form["password"]
     if username == "" or password == "":
-        return render_template("sign_up_failed.html")
+        return render_template("error.html", message="Syötä käyttäjänimi ja salasana", route="/signing_up")
     hash_value = generate_password_hash(password)
     sql = "select count(*) from users where username=:username or password=:password"
     result = db.session.execute(sql, {"username":username,"password":hash_value})
@@ -47,7 +47,7 @@ def sign_up():
         db.session.commit()
         return redirect("/")
     else:
-        return render_template("sign_up_failed.html")
+        return render_template("error.html", message="Käyttäjätunnus tai salasana on jo käytössä", route="/signing_up")
 
 @app.route("/logout")
 def logout():
@@ -88,14 +88,17 @@ def create_chain(id):
 
     route = "/new_chain/"+str(id)
     if len(content) > 100:
-        return render_template("error.html", message="Viesti on liian pitkä", route=route)
+        return render_template("error.html", message="Aloitusviesti on liian pitkä", route=route)
     if len(content) == 0:
-        return render_template("error.html", message="Viestiltä puuttuu sisältö", route=route)
+        return render_template("error.html", message="Ketjulta puuttuu aloitusviesti", route=route)
     title = request.form["title"]
     if len(title) > 50:
         return render_template("error.html", message="Otsikko on liian pitkä", route=route)
     if len(title) == 0:
-        return render_template("error.html", message="Viestiltä puuttuu otsikko", route=route)
+        return render_template("error.html", message="Ketjulta puuttuu otsikko", route=route)
+    if len(title) == 0 and len(content) == 0:
+        return render_template("error.html", message="Ei voi julkaista tyhjää ketjua", route=route)
+
 
     sql = "insert into chains (topics_id, user_id, title) values (:id, :user_id, :title) returning id"
     result = db.session.execute(sql, {"id":id, "user_id":user_id, "title":title})
@@ -112,6 +115,13 @@ def create_comment(id):
     result = db.session.execute(sql, {"username":username})
     user_id = result.fetchone()[0]
     content = request.form["content"]
+
+    route = "/chain/"+str(id)
+    if len(content) > 100:
+        return render_template("error.html", message="Kommentti on liian pitkä", route=route)
+    if len(content) == 0:
+        return render_template("error.html", message="Anna kommentille sisältö", route=route)
+
     sql = "insert into messages (content, user_id, posting_date, begining, chain_id) values (:content, :user_id, NOW(), False, :id)"
     result = db.session.execute(sql, {"content":content, "user_id":user_id, "id":id})
     db.session.commit()
