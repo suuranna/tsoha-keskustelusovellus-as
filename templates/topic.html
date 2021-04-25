@@ -11,7 +11,7 @@
 {% for chain in chains %}
 {% for message in opening_messages %}
 {% if message[2] == chain[0] %}
-Päiväys{{ message[1] }} | <a href="/chain/{{ chain[0] }}">Tarkastele ketjua</a><br>
+Päiväys: {{ message[1] }} | <a href="/chain/{{ chain[0] }}">Tarkastele ketjua</a><br>
 Otsikko: {{ chain[1] }} <br>
 Aloitusviesti: {{ message[0] }} <br>
 <p> </p>
