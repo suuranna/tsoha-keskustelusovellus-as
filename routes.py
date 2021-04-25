@@ -149,3 +149,14 @@ def chain(id):
     usernames = result.fetchall()
     return render_template("chain.html", id=id, username=username, opening_message=opening_message, title_and_topic_id=title_and_topic_id, messages=messages, usernames=usernames)
 
+@app.route("/result")
+def result():
+    query = request.args["query"]
+    sql = "select id, content, user_id, posting_date, chain_id from messages where begining = False and content like :query"
+    result = db.session.execute(sql, {"query":"%"+query+"%"})
+    messages = result.fetchall()
+    sql = "select id, content, user_id, posting_date, chain_id from messages where begining = True and content like :query"
+    result = db.session.execute(sql, {"query":"%"+query+"%"})
+    opening_messages = result.fetchall()
+    return render_template("result.html", messages=messages, opening_messages=opening_messages)
+
