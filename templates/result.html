@@ -1,0 +1,26 @@
+<p>Olet kirjautunut nimellä {{ session.username }}</p>
+<a href="/logout">Kirjaudu ulos</a>
+<hr>
+<a href="/">Takaisin alueisiin</a>
+<hr>
+Hakusanaa vastaavat ketjujen aloitusviestit: <br>
+<hr>
+{% for opening_message in opening_messages %}
+<hr>
+Päiväys: {{ opening_message[3] }} <br>
+Sisältö: {{ opening_message[1] }} <br>
+<a href="/chain/{{ opening_message[4] }}">Tarkastele ketjua</a><br>
+<hr>
+{% endfor %}
+<hr>
+<p></p>
+Hakusanaa vastaavat kommentit:
+<hr>
+{% for message in messages %}
+<hr>
+Päiväys: {{ message[3] }} <br>
+Sisältö: {{ message[1] }} <br>
+<a href="/chain/{{ message[4] }}">Tarkastele ketjua</a><br>
+<hr>
+{% endfor %}
+
