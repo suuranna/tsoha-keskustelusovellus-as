@@ -85,11 +85,18 @@ def create_chain(id):
     result = db.session.execute(sql, {"username":username})
     user_id = result.fetchone()[0]
     content = request.form["content"]
+
+    route = "/new_chain/"+str(id)
     if len(content) > 100:
-        return render_template("error.html", message="Viesti on liian pitkä")
+        return render_template("error.html", message="Viesti on liian pitkä", route=route)
+    if len(content) == 0:
+        return render_template("error.html", message="Viestiltä puuttuu sisältö", route=route)
     title = request.form["title"]
     if len(title) > 50:
-        return render_template("error.html", message="Otsikko on liian pitkä")
+        return render_template("error.html", message="Otsikko on liian pitkä", route=route)
+    if len(title) == 0:
+        return render_template("error.html", message="Viestiltä puuttuu otsikko", route=route)
+
     sql = "insert into chains (topics_id, user_id, title) values (:id, :user_id, :title) returning id"
     result = db.session.execute(sql, {"id":id, "user_id":user_id, "title":title})
     chain_id = result.fetchone()[0]
