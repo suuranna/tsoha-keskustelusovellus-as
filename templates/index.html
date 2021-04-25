@@ -1,6 +1,13 @@
 {% if session.username %}
 <p>Olet kirjautuneena nimellä {{ session.username }}
 <a href="/logout">Kirjaudu ulos</a></p>
+<hr>
+
+<form action="/search" method="GET">
+Hae hakusanalla: <input type="text" name="query">
+<input type="submit" value="Hae">
+</form>
+<br>
 Alueet:
 <hr>
 {% for topic in topics %}
