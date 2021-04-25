@@ -3,6 +3,14 @@
 <hr>
 <a href="/">Takaisin alueisiin</a>
 <hr>
+
+<form action="/search" method="GET">
+Hae hakusanalla: <input type="text" name="query">
+<br>
+<input type="submit" value="Hae">
+</form>
+
+<hr>
 {{ topic[0] }} 
 <p>Ketjujen määrä tällä alueella: {{ amount }}</p>
 <a href="/">Takaisin alueisiin</a> |
