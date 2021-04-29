@@ -24,7 +24,7 @@ def login():
         hash_value = user[0]
         if check_password_hash(hash_value,password):
             session["username"] = username
-            session["user_id"] = get_user_id(username) 
+            session["user_id"] = functions.get_user_id(username)
             return redirect("/")
         else:
             return render_template("error.html", message="Käyttäjänimi tai salasana on väärä", route="/")
