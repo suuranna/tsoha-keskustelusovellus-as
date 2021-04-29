@@ -1,5 +1,6 @@
 {% if session.username %}
 <p>Olet kirjautuneena nimellä {{ session.username }}
+<p>Kirjautuneen user id on {{ session.user_id }}
 <a href="/logout">Kirjaudu ulos</a></p>
 <hr>
 
@@ -22,5 +23,5 @@ Alueet:
 <p>Salasana:<br>
 <input type="password" name="password"></p>
 <input type="submit" value="Kirjaudu">
-<a href="/sign_up1">Eikö sinulla ole käyttäjää? Luo käyttäjä</a> <br>
+<a href="/signing_up">Eikö sinulla ole käyttäjää? Luo käyttäjä</a> <br>
 {% endif %}
