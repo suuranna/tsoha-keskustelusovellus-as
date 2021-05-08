@@ -22,7 +22,7 @@ Kommentteja tällä alueella: {{ comment[1] }} <br>
 {% endif %}
 {% endfor%}
 <a href="/topic/{{ topic[0] }}">Tarkastele alueen ketjuja</a> |
-{% if {{ session.admin }} %}
+{% if session.admin %}
 <a href="/">Poista alue</a>
 <br>
 {% endif %}
