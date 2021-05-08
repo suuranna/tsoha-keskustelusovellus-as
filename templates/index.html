@@ -13,7 +13,7 @@ Hae hakusanalla: <input type="text" name="query">
 Alueet:
 <hr>
 {% for topic in topics %}
-{% if ( ( topic[2] ) or ( {{ session.admin }} and not topic[2] ) ) %}
+{% if ( ( topic[2] ) or ( session.admin and not topic[2] ) ) %}
 {{ topic[1] }} <br>
 Ketjuja tällä aluella: {{ topic[3] }} |
 {% for comment in comments %}
