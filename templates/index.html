@@ -1,10 +1,11 @@
 {% if session.username %}
 <p>Olet kirjautuneena nimellä {{ session.username }}
-<br>Kirjautuneen user id on {{ session.user_id }} <br> 
+<br>Kirjautuneen user id on {{ session.user_id }} <br>
+Kirjautunut käyttäjä on ylläpitäjä: {{ session.admin }} <br> 
 <a href="/logout">Kirjaudu ulos</a></p>
 <hr>
 
-<form action="/search" method="GET">
+<form action="/result" method="GET">
 Hae hakusanalla: <input type="text" name="query">
 <input type="submit" value="Hae">
 </form>
@@ -12,8 +13,20 @@ Hae hakusanalla: <input type="text" name="query">
 Alueet:
 <hr>
 {% for topic in topics %}
+{% if topic[2] or ({{ session.admin }} and not topic[2]) %}
 {{ topic[1] }} <br>
-<a href="/topic/{{ topic[0] }}">Tarkastele ketjuja</a> <br>
+Ketjuja tällä aluella: {{ topic[3] }} |
+{% for comment in comments %}
+{% if comment[0] == topic[0]  %}
+Kommentteja tällä alueella: {{ comment[1] }} <br>
+{% endif %}
+{% endfor%}
+<a href="/topic/{{ topic[0] }}">Tarkastele alueen ketjuja</a> |
+{% if {{ session.admin }} %}
+<a href="/">Poista alue</a>
+<br>
+{% endif %}
+{% endif %}
 <hr>
 {% endfor %}
 {% else %}

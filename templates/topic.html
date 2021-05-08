@@ -3,18 +3,14 @@
 <hr>
 <a href="/">Takaisin alueisiin</a>
 <hr>
-{{ topic[0] }} 
+{{ topic }} 
 <p>Ketjujen määrä tällä alueella: {{ amount }}</p>
 <a href="/">Takaisin alueisiin</a> |
-<a href="/new_chain/{{ topic[1] }}">Aloita uusi ketju</a> <br>
+<a href="/new_chain/{{ id }}">Aloita uusi ketju</a> <br>
 <hr>
 {% for chain in chains %}
-{% for message in opening_messages %}
-{% if message[2] == chain[0] %}
-Päiväys: {{ message[1] }} | <a href="/chain/{{ chain[0] }}">Tarkastele ketjua</a><br>
+Ketjun aloittaja: {{ chain[4] }} | Päiväys: {{ chain[3] }} | <a href="/chain/{{ chain[0] }}">Tarkastele ketjua</a><br>
 Otsikko: {{ chain[1] }} <br>
-Aloitusviesti: {{ message[0] }} <br>
+Aloitusviesti: {{ chain[2] }} <br>
 <p> </p>
-{% endif %}
-{% endfor %}
 {% endfor %}
