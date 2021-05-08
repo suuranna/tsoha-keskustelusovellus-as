@@ -45,7 +45,7 @@ def create_a_new_message(content, user_id, chain_id, begining):
 
 def get_the_amount_of_comments_per_topic():
     sql = "select t.id, count(m.id) from topics t left join chains c on t.id=c.topics_id left join messages m on m.chain_id=c.id and m.begining=False group by t.id"
-    result db.session.execute(sql)
+    result = db.session.execute(sql)
     comments = result.fetchall()
     return commentss
 
