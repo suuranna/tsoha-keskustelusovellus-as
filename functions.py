@@ -32,8 +32,8 @@ def get_topics():
     return topics
 
 def create_a_new_chain(topics_id, user_id, title):
-    sql = "insert into chains (topics_id, user_id, title) values (:id, :user_id, :title) returning id"
-    result = db.session.execute(sql, {"id":id, "user_id":user_id, "title":title})
+    sql = "insert into chains (topics_id, user_id, title) values (:topics_id, :user_id, :title) returning id"
+    result = db.session.execute(sql, {"topics_id":topics_id, "user_id":user_id, "title":title})
     chain_id = result.fetchone()[0]
     db.session.commit()
     return chain_id
