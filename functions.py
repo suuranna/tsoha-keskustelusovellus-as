@@ -39,8 +39,9 @@ def create_a_new_chain(topics_id, user_id, title):
     return chain_id
 
 def create_a_new_message(content, user_id, chain_id, begining):
-    sql = "insert into messages (content, user_id, posting_date, begining, chain_id) values (:content, :user_id, datetime.now().strftime(%d/%m/%Y, %H:%M:%S), :begining, :chain_id) returning id"
-    result = db.session.execute(sql, {"content":content, "user_id":user_id, "begining":begining, "chain_id":chain_id})
+    time = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
+    sql = "insert into messages (content, user_id, posting_date, begining, chain_id) values (:content, :user_id, :time :begining, :chain_id) returning id"
+    result = db.session.execute(sql, {"content":content, "user_id":user_id, "time":time, "begining":begining, "chain_id":chain_id})
     db.session.commit()
 
 def get_the_amount_of_comments_per_topic():
@@ -58,7 +59,7 @@ def get_the_amount_of_comments_per_topic():
 def get_the_amount_of_chains_in_one_topic(id):
     sql = "select count(topics_id) from chains where topics_id=:id"
     result = db.session.execute(sql, {"id":id})
-    chains = result.fetchall()
+    chains = result.fetchone()[0]
     return chains
 
 def get_user_id(username):
@@ -89,7 +90,7 @@ def get_comments_of_a_chain(id):
 def get_topic_title(id):
     sql = "select topic from topics where id=:id"
     result = db.session.execute(sql, {"id":id})
-    title = result.fetchall()[0]
+    title = result.fetchone()[0]
     return title
 
 
