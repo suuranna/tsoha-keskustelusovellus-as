@@ -39,8 +39,8 @@ def create_a_new_chain(topics_id, user_id, title):
     return chain_id
 
 def create_a_new_message(content, user_id, chain_id, begining):
-    time = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
-    sql = "insert into messages (content, user_id, posting_date, begining, chain_id) values (:content, :user_id, :time :begining, :chain_id) returning id"
+    time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    sql = "insert into messages (content, user_id, posting_date, begining, chain_id) values (:content, :user_id, :time, :begining, :chain_id)"
     result = db.session.execute(sql, {"content":content, "user_id":user_id, "time":time, "begining":begining, "chain_id":chain_id})
     db.session.commit()
 
