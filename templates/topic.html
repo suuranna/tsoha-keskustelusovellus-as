@@ -10,10 +10,8 @@
 <hr>
 {% for chain in chains %}
 Ketjun aloittaja: {{ chain[4] }} | Päiväys: {{ chain[3] }} | <a href="/chain/{{ chain[0] }}">Tarkastele ketjua</a> | 
-{% if session.username == chain[4] or session.admin %}
-<a href="/delete_chain/{{ chain[0] }}">Poista  ketju</a> |
-{% endif %}
 {% if session.username == chain[4] %}
+<a href="/delete_chain/{{ chain[0] }}">Poista  ketju</a> |
 <a href="/edit_chain/{{ chain[0] }}">Muokkaa ketjun aloitusta</a>
 {% endif %}
 <br>

@@ -52,9 +52,6 @@ def create_a_new_message(content, user_id, chain_id, begining):
 def delete_topic(id):
     sql = "update topics set deleted=True where id=:id"
     result = db.session.execute(sql, {"id":id})
-    sql = "select id from chains where topics_id=:id"
-    result = db.session.execute(sql, {"id":id})
-    chains = result.fetchall()
     sql = "update chains set deleted=True where topics_id=:id"
     result = db.session.execute(sql, {"id":id})
     sql = "update messages set deleted=True where chain_id in (select id from chains where topics_id=:id)"

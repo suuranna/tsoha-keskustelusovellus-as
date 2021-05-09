@@ -71,7 +71,7 @@ def delete_topic(id):
 @app.route("/deleting_topic/<int:id>")
 def deleting_topic(id):
     functions.delete_topic(id)
-    return redirect("/")
+    return render_template("success.html", message="Alue poistettu onnistuneesti")
 
 @app.route("/delete_chain/<int:id>")
 def delete_chain(id):
@@ -86,23 +86,27 @@ def delete_comment(id):
 @app.route("/deleting_comment/<int:id>")
 def deleting_comment(id):
     functions.delete_comment(id)
-    return redirect("/")
+    return render_template("success.html", message="Kommentti poistettu onnistuneesti")
+
 
 @app.route("/deleting_chain/<int:id>")
 def deleting_chain(id):
     functions.delete_chain(id)
-    return redirect("/")
+    return render_template("success.html", message="Ketju poistettu onnistuneesti")
+
 
 @app.route("/edit_chain/<int:id>")
 def edit_chain(id):
     chain = functions.get_chain_opening(id)
-    return render_template("edit_chain.html", chain)
+    return render_template("edit_chain.html", chain=chain)
 
-@app.route("/editing_chain/<int:id>/")
+@app.route("/editing_chain/<int:id>/", methods=["POST"])
 def editing_chain(id):
     content = request.form["content"]
     title = request.form["title"]
-    return redirect("/chain/"+str(id))
+    #return redirect("/chain/"+str(id))
+    functions.edit_chain(id, title, content)
+    return render_template("success.html", message="Ketjua muokattu onnistuneesti")
 
 @app.route("/new_comment/<int:id>")
 def new_comment(id):
@@ -117,7 +121,7 @@ def edit_comment(id):
 def editing_comment(id):
     content = request.form["content"]
     functions.edit_comment(id, content)
-    return redirect("/")
+    return render_template("success.html", message="Kommenttia muokattu onnistuneesti")
 
 @app.route("/new_topic")
 def new_topic():
