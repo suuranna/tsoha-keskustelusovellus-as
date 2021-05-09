@@ -1,11 +1,15 @@
+{% extends "layout.html" %}
+{% block title %}{% endblock %}
+{% block content %}
 {% if session.username == chain[5] and not chain[6] %}
 <form action="/deleting_chain" method="POST">
-<p>Haluatko varmasti poistaa tämän ketjun?</p>
+<h3>Haluatko varmasti poistaa tämän ketjun?</h3>
 <a href="/chain/{{ chain[1] }}">Peruuta</a> | 
 <input type="submit" value="Poista ketju">
 <input type="hidden" name="id" value="{{ chain[1] }}">
 <input type="hidden" name="topics_id" value="{{ chain[0] }}">
 {% else %}
-Sinulla ei ole oikeuksia tähän toimintoon, koska et ole ketjun luoja tai ketju on jo poistettu. <br>
+<h3>Sinulla ei ole oikeuksia tähän toimintoon, koska et ole ketjun luoja tai ketju on jo poistettu. </h3>
 <a href="/">Etusivulle</a> 
 {% endif %}
+{% endblock %}

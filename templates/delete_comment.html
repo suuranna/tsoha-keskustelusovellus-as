@@ -1,11 +1,15 @@
+{% extends "layout.html" %}
+{% block title %}{% endblock %}
+{% block content %}
 {% if session.user_id == comment[1] and not comment[3] %}
 <form action="/deleting_comment" method="POST">
-<p>Haluatko varmasti poistaa tämän kommentin?</p>
+<h3>Haluatko varmasti poistaa tämän kommentin?</h3>
 <a href="/chain/{{ comment[2] }}">Peruuta</a> |
 <input type="submit" value="Poista kommentti">
 <input type="hidden" name="id" value="{{ id }}">
 <input type="hidden" name="chain_id" value="{{ comment[2] }}">
 {% else %}
-Sinulla ei ole oikeuksia tähän toimintoon, koska et ole kommentin luoja tai kommentti on jo poistettu. <br>
+<h3>Sinulla ei ole oikeuksia tähän toimintoon, koska et ole kommentin luoja tai kommentti on jo poistettu. </h3>
 <a href="/">Etusivulle</a>
 {% endif %}
+{% endblock %}

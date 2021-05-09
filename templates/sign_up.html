@@ -1,5 +1,8 @@
+{% extends "layout.html" %}
+{% block title %}{% endblock %}
+{% block content %}
 <form action="/sign_up" method="POST">                                             
-<p>Luo käyttäjä</p>
+<h3>Luo käyttäjä</h3>
 <p>Anna käyttäjätunnus, joka on vähintään 6 ja enintään 14 merkkiä pitkä :<br>
 <input type="text" name="username"></p>
 <p>Anna salasana, joka on vähintään 8 ja enintään 18 merkkiä pitkä:<br>
@@ -7,3 +10,4 @@
 <p>Anna sama salasana uudelleen:<br>
 <input type="password" name="password_again"></p>
 <input type="submit" value="Luo tunnus">
+{% endblock %}

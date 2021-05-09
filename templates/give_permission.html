@@ -1,8 +1,11 @@
+{% extends "layout.html" %}
+{% block title %}{% endblock %}
+{% block content %}
 {% if session.admin %}
-<p>Määritä, kuka saa tarkastella aluetta</p>
+<h3>Määritä, kuka saa tarkastella aluetta</h3>
 <form action="/giving_permission" method="POST">
-<p>Anna käyttäjänimi, jolle haluat antaa oikeudet tämän alueen tarkasteluun:<br>
-<input type="text" name="username"></p><br>
+Anna käyttäjänimi, jolle haluat antaa oikeudet tämän alueen tarkasteluun:<br>
+<input type="text" name="username"><br>
 <a href="/">Peruuta</a> | 
 <input type="submit" value="Anna oikeudet"> <br>
 Käyttäjät, joilla on oikeudet tarkastella tätä aluetta:
@@ -15,4 +18,4 @@ Käyttäjät, joilla on oikeudet tarkastella tätä aluetta:
 Sinulla ei ole oikeuksia tähän toimintoon, koska et ole ylläpitäjä. <br>
 <a href="/">Etusivulle</a>
 {% endif %}
-
+{% endblock %}

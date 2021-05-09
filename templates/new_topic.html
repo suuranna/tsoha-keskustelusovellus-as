@@ -1,6 +1,9 @@
+{% extends "layout.html" %}
+{% block title %}{% endblock %}
+{% block content %}
 {% if session.admin %}
 <form action="/create_topic" method="POST">
-<p>Luo uusi alue</p>
+<h3>Luo uusi alue</h3>
 <p>Aihe:</p>
 <input type="text" name="topic">
 <p>Onko alue julkinen vai yksityinen?:</p>
@@ -13,3 +16,4 @@
 Sinulla ei ole oikeutta luoda uutta aluetta, koska et ole ylläpitäjä <br>
 <a href="/">Etusivulle</a>
 {% endif %}
+{% endblock %}

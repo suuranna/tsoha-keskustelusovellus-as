@@ -1,13 +1,20 @@
+{% extends "layout.html" %}
+{% block title %}{% endblock %}
+{% block content %}
 {% if session.user_id == comment[1] %}
 <form action="/editing_comment" method="POST">
-<p>Kommentti:</p><br>
-<textarea value="{{ comment[0] }}" name="content" rows="5" cols="40"></textarea><br>
+<h3>Muokkaa kommenttia</h3>
+Alkuperäinen kommentti: <br>
+{{ comment[2] }} <br>
+<p>Muokattu kommentti:</p><br>
+<textarea name="content" rows="5" cols="40"></textarea><br>
 <a href="/chain/{{ comment[2] }}">Peruuta</a> | 
 <input type="submit" value="Muokkaa kommenttia">
 <input type="hidden" name="id" value="{{ id }}">
 <input type="hidden" name="chain_id" value="{{ comment[2] }}">
 </form>
 {% else %}
-Sinulla ei ole oikeuksia tähän toimintoon, koska et ole kommentin luoja tai kommentti on poistettu. <br>
+<h3>Sinulla ei ole oikeuksia tähän toimintoon, koska et ole kommentin luoja tai kommentti on poistettu. </h3>
 <a href="/">Etusivulle</a>
 {% endif %}
+{% endblock %}
