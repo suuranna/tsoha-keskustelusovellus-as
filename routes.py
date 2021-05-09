@@ -191,3 +191,18 @@ def result():
     opening_messages = functions.find_messages(query, True)
     return render_template("result.html", messages=messages, opening_messages=opening_messages)
 
+@app.route("/give_permission/<int:id>")
+def give_permission(id):
+    return render_template("give_permission.html", id=id)
+
+@app.route("/giving_permission", methods=["POST"])
+def giving_permission():
+    id = request.form["id"]
+    username = request.form["username"]
+    user_id = functions.get_user_id(username)
+    if user_id == None:
+        return render_template("error.html", message="Antamasi käyttäjänimi ei vastaa ketään käyttäjää", route="/give_permission/"+str(id))
+    functions.give_permission(id, user_id)
+    return render_template("success.html", message="Oikeudet annettu onnistuneesti")
+
+

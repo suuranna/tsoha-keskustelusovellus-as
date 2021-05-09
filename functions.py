@@ -26,7 +26,7 @@ def count_users_with_same_username(username):
 
 def get_topics():
     #sql = "select t.id, t.topic, t.public, count(c.topics_id) from topics t, chains c where t.id=c.topics_id group by t.id"
-    sql = "select t.id, t.topic, t.public, count(c.topics_id) from topics t left join chains c on t.id=c.topics_id and t.deleted=False group by t.id order by t.id desc"
+    sql = "select t.id, t.topic, t.public, count(c.topics_id), t.deleted from topics t left join chains c on t.id=c.topics_id and c.deleted=False and t.deleted=False group by t.id order by t.id desc"
     result = db.session.execute(sql)
     topics = result.fetchall()
     return topics
@@ -144,3 +144,7 @@ def get_comment(id):
     comment = result.fetchone()
     return comment
 
+def give_permission(id, user_id):
+    sql = "insert into private_topics_permissions (topics_id, user_id) values (:id, :user_id)"
+    result = db.session.execute(sql, {"id":id, "user_id":user_id})
+    db.session.commit()

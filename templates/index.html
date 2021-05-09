@@ -9,14 +9,14 @@ Kirjautunut käyttäjä on ylläpitäjä: {{ session.admin }} <br>
 Hae hakusanalla: <input type="text" name="query">
 <input type="submit" value="Hae">
 </form>
-<br>
+<hr>
 {% if session.admin %}
 <a href="/new_topic">Luo uusi alue</a> <br>
 {% endif %}
 Alueet:
 <hr>
 {% for topic in topics %}
-{% if ( ( topic[2] ) or ( session.admin and not topic[2] ) ) %}
+{% if ( ( topic[2] ) or ( session.admin and not topic[2] ) or ( not topic[4] ) ) %}
 {{ topic[1] }} <br>
 Ketjuja tällä aluella: {{ topic[3] }} |
 {% for comment in comments %}
@@ -26,7 +26,10 @@ Kommentteja tällä alueella: {{ comment[1] }} <br>
 {% endfor%}
 <a href="/topic/{{ topic[0] }}">Tarkastele alueen ketjuja</a> |
 {% if session.admin %}
-<a href="/delete_topic/{{ topic[0] }}">Poista alue</a>
+<a href="/delete_topic/{{ topic[0] }}">Poista alue</a> |
+{% if not topic[2] %} 
+<a href="/give_permission/{{ topic[0] }}">Määritä, kuka saa tarkastella aluetta</a> |
+{% endif %}
 <br>
 {% endif %}
 {% endif %}
