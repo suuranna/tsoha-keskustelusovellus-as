@@ -84,8 +84,10 @@ def get_the_amount_of_chains_in_one_topic(id):
 def get_user_id(username):
     sql = "select id from users where username=:username"
     result = db.session.execute(sql, {"username":username})
-    user_id = result.fetchone()[0]
-    return user_id
+    user_id = result.fetchone()
+    if user_id == None:
+        return None
+    return user_id[0]
 
 def get_chains_from_topic(id):
     sql = "select c.id, c.title, m.content, m.posting_date, u.username from chains c, messages m, users u where m.chain_id=c.id and m.begining=True and m.user_id=u.id and c.deleted=False and c.topics_id=:id"
