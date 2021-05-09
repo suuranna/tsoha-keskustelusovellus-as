@@ -3,12 +3,6 @@
 {% block content %}
 
 {% if session.username %}
-TESTI
-<form action="/result" method="GET">
-Hae hakusanalla: <input type="text" name="query">
-<input type="submit" value="Hae">
-</form>
-<hr>
 
 <h2>Alueet</h2>
 {% if session.admin %}
@@ -33,6 +27,7 @@ Kommentteja tällä alueella: {{ comment[1] }} <br>
 <br>
 {% endif %}
 {% endif %}
+<hr>
 {% endfor %}
 
 {% else %}

@@ -1,3 +1,6 @@
-{{ message }}<br>
-<br>
+{% extends "layout.html" %}
+{% block title %}{{ message }}{% endblock %}
+{% block content %}
+<h3> {{ message }} </h3>
 <a href={{ route }}>Yritä uudelleen</a> 
+{% endblock %}

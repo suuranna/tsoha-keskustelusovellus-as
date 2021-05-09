@@ -1,11 +1,14 @@
+{% extends "layout.html" %}
+{% block title %}{% endblock %}
+{% block content %}
 {% if session.admin %}
 <form action="/deleting_topic" method="POST">
-<p>Haluatko varmasti poistaa tämän alueen?</p>
+<h3>Haluatko varmasti poistaa tämän alueen?</h3>
 <a href="/">Peruuta</a> |
 <input type="submit" value="Poista alue">
 <input type="hidden" name="id" value="{{ id }}">
 {% else %}
-Sinulla ei ole oikeuksia tähän toimintoon, koska et ole ylläpitäjä. <br>
+<h3>Sinulla ei ole oikeuksia tähän toimintoon, koska et ole ylläpitäjä.</h3>
 <a href="/">Etusivulle</a>
 {% endif %}
-
+{% endblock %}

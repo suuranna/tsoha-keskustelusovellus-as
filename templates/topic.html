@@ -1,9 +1,10 @@
 {% extends "layout.html" %}
 {% block title %}{{ topic[0] }}{% endblock %}
 {% block content %}
+<a href="/">Takaisin alueisiin</a> 
+<hr>
 <h3>{{ topic[0] }}</h3> 
 <p>Ketjujen määrä tällä alueella: {{ amount }}</p>
-<a href="/">Takaisin alueisiin</a> |
 <a href="/new_chain/{{ id }}">Aloita uusi ketju</a> |  
 {% if session.admin %}
 <a href="/delete_topic/{{ id }}">Poista alue</a>
@@ -11,14 +12,13 @@
 <br>
 <hr>
 {% for chain in chains %}
+<h5> {{ chain[1] }} </h5>
 Ketjun aloittaja: {{ chain[4] }} | Päiväys: {{ chain[3] }} | <a href="/chain/{{ chain[0] }}">Tarkastele ketjua</a> | 
 {% if session.username == chain[4] %}
 <a href="/delete_chain/{{ chain[0] }}">Poista  ketju</a> |
 <a href="/edit_chain/{{ chain[0] }}">Muokkaa ketjun aloitusta</a>
 {% endif %}
 <br>
-Otsikko: {{ chain[1] }} <br>
 Aloitusviesti: {{ chain[2] }} <br>
-<p> </p>
 {% endfor %}
 {% endblock %}
