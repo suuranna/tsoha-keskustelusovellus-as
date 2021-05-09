@@ -16,14 +16,14 @@ Hae hakusanalla: <input type="text" name="query">
 <hr>
 
 {% block title %}Alueet{% endblock %}
-{% block content %}
 <h2>Alueet</h2>
 {% if session.admin %}
 <a href="/new_topic">Luo uusi alue</a> <br>
+<hr>
 {% endif %}
 {% for topic in topics %}
 {% if ( ( topic[2] ) or ( session.admin and not topic[2] ) or ( not session.admin and not topic[2] and topic[0] in session.permissions ) ) %}
-{{ topic[1] }} <br>
+<h3>{{ topic[1] }}</h3> <br>
 Ketjuja tällä aluella: {{ topic[3] }} |
 {% for comment in comments %}
 {% if comment[0] == topic[0]  %}
@@ -39,9 +39,8 @@ Kommentteja tällä alueella: {{ comment[1] }} <br>
 <br>
 {% endif %}
 {% endif %}
-<hr>
 {% endfor %}
-{% endblock %}
+
 {% else %}
 
 <h2>Kirjaudu sisään</h2>
