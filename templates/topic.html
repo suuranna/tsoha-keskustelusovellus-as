@@ -12,7 +12,7 @@
 <br>
 <hr>
 {% for chain in chains %}
-<h5> {{ chain[1] }} </h5>
+<h4> {{ chain[1] }} </h4>
 Ketjun aloittaja: {{ chain[4] }} | Päiväys: {{ chain[3] }} | <a href="/chain/{{ chain[0] }}">Tarkastele ketjua</a> | 
 {% if session.username == chain[4] %}
 <a href="/delete_chain/{{ chain[0] }}">Poista  ketju</a> |
