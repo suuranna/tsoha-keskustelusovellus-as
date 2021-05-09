@@ -1,18 +1,14 @@
 # Tietokantasovellus 2021
-## Missä vaiheessa sovellukseni on?
-Tällä hetkellä sovelluksessa on/toimii kaikki muut toiminnot, paitsi hakutoiminto (vaikka se onkin lisätty
-keskustelusovellukseen), viestien/ketjujen muokkaaminen ja poisto sekä ylläpitoon liittyvät toiminnot, joita ei ole vielä lisätty. 
-Lisäksi kaikki sovelluksen ulkonäköön liittyvät asiat ovat vielä vaiheessa, joten sovellus ei välttämättä ole 
-mukavaa katseltavaa kaikilta osin. Lisäksi koodia pitäisi vielä refaktoroida.
+## Kuinka sovellusta testataan?
+Sovellus on nyt valmis!
+
+Sovellusta voi testata joko tavallisena käyttäjänä luomalla käyttäjätunnukset tai 
+sitten ylläpitäjänä kirjautumalla tunnuksilla:
+
+Käyttäjätunnus: yllapitaja
+Salasana: salasana
 
 [Linkki Herokuun](https://tsoha-keskustelusovellus-as.herokuapp.com/)
-
-Tuli vähän mutkia matkaan etärepostorion kanssa, minkä takia 
-Labtoolissa on useasti vaihdettu repositorion osoite. Lisäksi etärepostoriossa on ollut sellaisia
-tiedostoja, mitä siellä ei pitäisi olla, koska tein gitignore-tiedoston liian myöhään. Usean uuden etärepostorion
-jälkeen kuitenkin huomasin, että vanhat commitit seuraa perässä ja uuden etärepostorion luomisesta ei ole mitään apua...
-Vaihdoin kuitenkin .env-tiedostossa olleen Secret_coden, joka huolimattomuudesta tuli etärepostorioon, jos
-se mitään auttaa.
 
 ## Keskustelusovellus
 Aion tehdä materiaalissa esitellyn keskustelusovelluksen. Näillä näkymin aion tehdä sovelluksen seuraavilla 

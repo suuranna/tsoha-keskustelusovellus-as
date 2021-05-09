@@ -8,10 +8,10 @@
 Ketjun aloittaja: {{ chain_opening[5] }} | Päiväys: {{ chain_opening[4] }}<br>
 Aloitusviesti: <br> {{ chain_opening[3] }}
 <hr>
-<h4>Kommentit:</h4>
-<a href="/new_comment/{{ id }}">Kirjoita uusi kommentti</a> <br>
-{% for comment in comments %}
+<a href="/new_comment/{{ id }}">Kirjoita uusi kommentti</a> 
 <hr>
+<h3>Kommentit:</h3>
+{% for comment in comments %}
 Käyttäjältä: {{ comment[1] }} | Päiväys: {{ comment[2] }} |
 {% if session.username == comment[1] %}
 <a href="/edit_comment/{{ comment[3] }}">Muokkaa kommenttia</a> |
