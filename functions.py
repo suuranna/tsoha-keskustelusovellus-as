@@ -87,7 +87,7 @@ def get_the_amount_of_comments_per_topic():
 #    return chains
 
 def get_the_amount_of_chains_in_one_topic(id):
-    sql = "select count(topics_id) from chains where deleted=False topics_id=:id"
+    sql = "select count(topics_id) from chains where deleted=False and topics_id=:id"
     result = db.session.execute(sql, {"id":id})
     chains = result.fetchone()[0]
     return chains
