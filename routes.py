@@ -189,6 +189,7 @@ def create_chain():
 
 @app.route("/create_comment", methods=["POST"])
 def create_comment():
+    id = request.form["id"]
     content = request.form["content"]
     route = "/new_comment/"+str(id)
     if len(content) > 100:
