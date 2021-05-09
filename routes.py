@@ -6,21 +6,14 @@ import functions
 
 @app.route("/")
 def index():
-    #sql = "select id, topic from topics where public=True"
-    #result = db.session.execute(sql)
-    #topics = result.fetchall() OK OK OK
     topics = functions.get_topics()
     comments = functions.get_the_amount_of_comments_per_topic()
-    #chains = functions.get_the_amount_of_chains_per_topic()
-    return render_template("index.html",topics=topics, comments=comments) # chains=chains)
+    return render_template("index.html",topics=topics, comments=comments)
 
 @app.route("/login",methods=["POST"])
 def login():
     username = request.form["username"]
     password = request.form["password"]
-    #sql = "select password from users where username=:username"
-    #result = db.session.execute(sql, {"username":username})
-    #hashed_password = result.fetchone() OK OK OK
     hashed_password = functions.get_password(username)
     if hashed_password == None:
         return render_template("error.html", message="Käyttäjänimi tai salasana on väärä", route="/")
@@ -52,15 +45,9 @@ def sign_up():
     if password != password_again:
        return render_template("error.html", message="Salasanat eivät täsmää", route="/signing_up")
     hash_value = generate_password_hash(password)
-    #sql = "select count(*) from users where username=:username"
-    #result = db.session.execute(sql, {"username":username})
-    #result2 = result.fetchone()[0] OK OK OK
     count = functions.count_users_with_same_username(username)
     if count == 0:
         functions.new_user(username, hash_value)
-        #sql = "insert into users (username, password, admin) values (:username, :password, False)"
-        #db.session.execute(sql, {"username":username, "password":hash_value})
-        #db.session.commit() OK OK OK
         return redirect("/")
     else:
         return render_template("error.html", message="Käyttäjätunnus on jo käytössä", route="/signing_up")
@@ -72,26 +59,85 @@ def logout():
 
 @app.route("/topic/<int:id>")
 def topic(id):
-    #sql = "select topic, id from topics where id=:id"
-    #result = db.session.execute(sql, {"id":id})
-    #topic = result.fetchone()
-    #sql = "select id, title from chains where topics_id=:id"
-    #result = db.session.execute(sql, {"id":id})
-    #chains = result.fetchall() OK OK OK
     topic = functions.get_topic_title(id)
     chains = functions.get_chains_from_topic(id)
-    #sql = "select content, posting_date, chain_id from messages where begining=True"
-    #result = db.session.execute(sql)
-    #opening_messages = result.fetchall() OK OK OK
-    #sql = "select count(*) from chains where topics_id=:id"
-    #result = db.session.execute(sql, {"id":id})
-    #amount = result.fetchone()[0] OK OK OK
     amount = functions.get_the_amount_of_chains_in_one_topic(id)
     return render_template("topic.html", topic=topic, chains=chains, amount=amount, id=id)
+
+@app.route("/delete_topic/<int:id>")
+def delete_topic(id):
+    return render_template("delete_topic.html", id=id)
+
+@app.route("/deleting_topic/<int:id>")
+def deleting_topic(id):
+    functions.delete_topic(id)
+    return redirect("/")
+
+@app.route("/delete_chain/<int:id>")
+def delete_chain(id):
+    chain = functions.get_chain_opening(id)
+    return render_template("delete_chain.html", chain=chain, back_route="/chain/"+str(id), route="/deleting_chain/"+str(id))
+
+@app.route("/delete_comment/<int:id>")
+def delete_comment(id):
+    comment = functions.get_comment(id)
+    return render_template("delete_comment.html", comment=comment, id=id)
+
+@app.route("/deleting_comment/<int:id>")
+def deleting_comment(id):
+    functions.delete_comment(id)
+    return redirect("/")
+
+@app.route("/deleting_chain/<int:id>")
+def deleting_chain(id):
+    functions.delete_chain(id)
+    return redirect("/")
+
+@app.route("/edit_chain/<int:id>")
+def edit_chain(id):
+    chain = functions.get_chain_opening(id)
+    return render_template("edit_chain.html", chain)
+
+@app.route("/editing_chain/<int:id>/")
+def editing_chain(id):
+    content = request.form["content"]
+    title = request.form["title"]
+    return redirect("/chain/"+str(id))
 
 @app.route("/new_comment/<int:id>")
 def new_comment(id):
     return render_template("new_comment.html", id=id)
+
+@app.route("/edit_comment/<int:id>")
+def edit_comment(id):
+    comment = functions.get_comment(id)
+    return render_template("edit_comment.html", comment=comment, id=id)
+
+def editing_comment(id):
+    content = request.form["content"]
+    functions.edit_comment(id, content)
+    return redirect("/")
+
+@app.route("/new_topic")
+def new_topic():
+    return render_template("new_topic.html")
+
+@app.route("create_topic", methods=["POST"])
+def create_topic():
+    topic = request.form["topic"]
+    answer = request.form["answer"]
+    route = "/new_topic"
+    if answer == None:
+        return render_template("error.html", message="Valitse onko alue julkinen vai yksityinen", route=route)
+    if len(topic) > 30:
+        return render_template("error.html", message="Alueen nimi on liian pitkä", route=route)
+    if len(topic) == 0:
+        return render_template("error.html", message="Anna alueelle nimi", route=route)
+    public = True
+    if answer == "2":
+        public = False
+    functions.create_a_new_topic(topic, public)
+    return redirect("/")
 
 @app.route("/new_chain/<int:id>")
 def new_chain(id):
@@ -99,13 +145,8 @@ def new_chain(id):
 
 @app.route("/create_chain/<int:id>", methods=["POST"])
 def create_chain(id):
-    #username = session["username"] Ok
-    #sql = "select id from users where username=:username"
-    #result = db.session.execute(sql, {"username":username})
-    #user_id = result.fetchone()[0] OK OK OK
     content = request.form["content"]
     title = request.form["title"]
-
     route = "/new_chain/"+str(id)
     if len(content) > 150:
         return render_template("error.html", message="Aloitusviesti on liian pitkä", route=route)
@@ -117,57 +158,23 @@ def create_chain(id):
         return render_template("error.html", message="Ketjulta puuttuu otsikko", route=route)
     if len(title) == 0 and len(content) == 0:
         return render_template("error.html", message="Ei voi julkaista tyhjää ketjua", route=route)
-    #sql = "insert into chains (topics_id, user_id, title) values (:id, :user_id, :title) returning id"
-    #result = db.session.execute(sql, {"id":id, "user_id":user_id, "title":title})
-    #chain_id = result.fetchone()[0] OK OK OK
     chain_id = functions.create_a_new_chain(id, session["user_id"], title)
     functions.create_a_new_message(content, session["user_id"], chain_id, True)
-    #sql = "insert into messages (content, user_id, posting_date, begining, chain_id) values 
-    #       (:content, :user_id, datetime.now().strftime(%d/%m/%Y, %H:%M:%S), True, :chain_id) returning id"
-    #result = db.session.execute(sql, {"content":content, "user_id":user_id, "chain_id":chain_id})
-    #db.session.commit() OK OK OK
     return redirect("/topic/"+str(id))
 
 @app.route("/create_comment/<int:id>", methods=["POST"])
 def create_comment(id):
-    #username = session["username"]
-    #sql = "select id from users where username=:username"
-    #result = db.session.execute(sql, {"username":username})
-    #user_id = result.fetchone()[0]
     content = request.form["content"]
-
     route = "/new_comment/"+str(id)
     if len(content) > 100:
         return render_template("error.html", message="Kommentti on liian pitkä", route=route)
     if len(content) == 0:
         return render_template("error.html", message="Anna kommentille sisältö", route=route)
-
-    #sql = "insert into messages (content, user_id, posting_date, begining, chain_id) values (:content, :user_id, NOW(), False, :id)"
-    #result = db.session.execute(sql, {"content":content, "user_id":user_id, "id":id})
-    #db.session.commit() OK OK OK
     functions.create_a_new_message(content, session["user_id"], id, False)
     return redirect("/chain/"+str(id))
 
 @app.route("/chain/<int:id>")
 def chain(id):
-    #sql = "select user_id from messages where chain_id=:id and begining=True"
-    #result = db.session.execute(sql, {"id":id})
-    #user_id = result.fetchone()[0]
-    #sql = "select username from users where id=:user_id"
-    #result = db.session.execute(sql, {"user_id":user_id})
-    #username = result.fetchone()[0]
-    #sql = "select content, posting_date from messages where chain_id=:id and begining=True"
-    #result =db.session.execute(sql, {"id":id})
-    #opening_message = result.fetchone()
-    #sql = "select title, topics_id from chains where id=:id"
-    #result = db.session.execute(sql, {"id":id})
-    #title_and_topic_id = result.fetchone()
-    #sql = "select content, user_id, posting_date from messages where chain_id=:id and begining=False"
-    #result =db.session.execute(sql, {"id":id})
-    #messages = result.fetchall()
-    #sql = "select id, username from users"
-    #result = db.session.execute(sql)
-    #usernames = result.fetchall() OK OK OK
     chain_opening = functions.get_chain_opening(id)
     comments = functions.get_comments_of_a_chain(id)
     return render_template("chain.html", id=id, comments=comments, chain_opening=chain_opening)
@@ -175,11 +182,13 @@ def chain(id):
 @app.route("/result")
 def result():
     query = request.args["query"]
-    sql = "select id, content, user_id, posting_date, chain_id from messages where begining = False and content LIKE :query"
-    result = db.session.execute(sql, {"query":"%"+query+"%"})
-    messages = result.fetchall()
-    sql = "select id, content, user_id, posting_date, chain_id from messages where begining = True and content LIKE :query"
-    result = db.session.execute(sql, {"query":"%"+query+"%"})
-    opening_messages = result.fetchall()
+    #sql = "select id, content, user_id, posting_date, chain_id from messages where begining = False and content LIKE :query"
+    #result = db.session.execute(sql, {"query":"%"+query+"%"})
+    #messages = result.fetchall()
+    #sql = "select id, content, user_id, posting_date, chain_id from messages where begining = True and content LIKE :query"
+    #result = db.session.execute(sql, {"query":"%"+query+"%"})
+    #op
+    messages = functions.find_messages(query, False)
+    opening_messages = functions.find_messages(query, True)
     return render_template("result.html", messages=messages, opening_messages=opening_messages)
 

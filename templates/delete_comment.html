@@ -1,0 +1,9 @@
+{% if session.user_id == comment[1] %}
+<form action="/deleting_comment/{{ id }}" method="POST">
+<p>Haluatko varmasti poistaa tämän kommentin?</p>
+<a href="/chain/{{ comment[2] }}">Peruuta</a> |
+<input type="submit" value="Poista kommentti">
+{% else %}
+Sinulla ei ole oikeuksia tähän toimintoon, koska et ole kommentin luoja. <br>
+<a href="/">Etusivulle</a>
+{% endif %}

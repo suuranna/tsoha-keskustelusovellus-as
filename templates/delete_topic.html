@@ -1,0 +1,10 @@
+{% if session.admin %}
+<form action="/deleting_topic/{{ id }}" method="POST">
+<p>Haluatko varmasti poistaa tämän alueen?</p>
+<a href="/">Peruuta</a> |
+<input type="submit" value="Poista alue">
+{% else %}
+Sinulla ei ole oikeuksia tähän toimintoon, koska et ole ylläpitäjä. <br>
+<a href="/">Etusivulle</a>
+{% endif %}
+

@@ -11,7 +11,12 @@ Kommentit:<br>
 <hr>
 {% for comment in comments %}
 <hr>
-Käyttäjältä: {{ comment[1] }} | Päiväys: {{ comment[2] }}<br>
+Käyttäjältä: {{ comment[1] }} | Päiväys: {{ comment[2] }} |
+{% if session.username == comment[1] %}
+<a href="/edit_comment/{{ comment[3] }}">Muokkaa kommenttia</a> |
+<a href="/delete_comment/{{ comment[3] }}">Poista kommentti</a>
+{% endif%}
+<br>
 Kommentti: <br> {{ comment[0] }} <br>
 <hr>
 <p> </p>

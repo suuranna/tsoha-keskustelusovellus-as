@@ -1,0 +1,9 @@
+{% if session.username == chain[5] %}
+<form action="/deleting_chain/{{ chain[1] }}" method="POST">
+<p>Haluatko varmasti poistaa tämän ketjun?</p>
+<a href="/topic/{{ chain[0] }}">Peruuta</a> | 
+<input type="submit" value="Poista ketju">
+{% else %}
+Sinulla ei ole oikeuksia tähän toimintoon, koska et ole ketjun luoja. <br>
+<a href="/">Etusivulle</a> 
+{% endif %}

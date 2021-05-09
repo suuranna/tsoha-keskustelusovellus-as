@@ -10,6 +10,9 @@ Hae hakusanalla: <input type="text" name="query">
 <input type="submit" value="Hae">
 </form>
 <br>
+{% if session.admin %}
+<a href="/new_topic">Luo uusi alue</a> <br>
+{% endif %}
 Alueet:
 <hr>
 {% for topic in topics %}
@@ -23,7 +26,7 @@ Kommentteja tällä alueella: {{ comment[1] }} <br>
 {% endfor%}
 <a href="/topic/{{ topic[0] }}">Tarkastele alueen ketjuja</a> |
 {% if session.admin %}
-<a href="/">Poista alue</a>
+<a href="/delete_topic/{{ topic[0] }}">Poista alue</a>
 <br>
 {% endif %}
 {% endif %}
