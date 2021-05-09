@@ -1,4 +1,7 @@
+{% extends "layout.html" %}
 {% if session.username %}
+<hr>
+TÄMÄ ON TESTI <br>
 <p>Olet kirjautuneena nimellä {{ session.username }}
 <br>Kirjautuneen user id on {{ session.user_id }} <br>
 Kirjautunut käyttäjä on ylläpitäjä: {{ session.admin }} <br>
@@ -11,11 +14,13 @@ Hae hakusanalla: <input type="text" name="query">
 <input type="submit" value="Hae">
 </form>
 <hr>
+
+{% block title %}Alueet{% endblock %}
+{% block content %}
+<h2>Alueet</h2>
 {% if session.admin %}
 <a href="/new_topic">Luo uusi alue</a> <br>
 {% endif %}
-Alueet:
-<hr>
 {% for topic in topics %}
 {% if ( ( topic[2] ) or ( session.admin and not topic[2] ) or ( not session.admin and not topic[2] and topic[0] in session.permissions ) ) %}
 {{ topic[1] }} <br>
@@ -36,13 +41,19 @@ Kommentteja tällä alueella: {{ comment[1] }} <br>
 {% endif %}
 <hr>
 {% endfor %}
+{% endblock %}
+
 {% else %}
-<p>Kirjaudu sisään</p>
+
+{% block title %}Kirjaudu sisään{% endblock %}
+{% block content %}
+<h2>Kirjaudu sisään</h2>
 <form action="/login" method="POST">
-<p>Käyttäjätunnus:<br>
-<input type="text" name="username"></p>
-<p>Salasana:<br>
-<input type="password" name="password"></p>
+Käyttäjätunnus:<br>
+<input type="text" name="username">
+Salasana:<br>
+<input type="password" name="password">
 <input type="submit" value="Kirjaudu">
 <a href="/signing_up">Eikö sinulla ole käyttäjää? Luo käyttäjä</a> <br>
+{% endblock %}
 {% endif %}

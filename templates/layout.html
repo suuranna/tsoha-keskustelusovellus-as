@@ -1,1 +1,11 @@
 <!doctype html>
+<title>Keskustelusovellus KeSolus - {% block title %}{% endblock %}</title>
+<h1>Keskustelusovellus KeSolus</h1>
+<hr>
+{% if session.username %}
+Olet kirjautuneena nimellä {{ session.username }} | 
+<a href="/logout">Kirjaudu ulos</a></p>
+<hr>
+{% endif %}
+{% block content %}{% endblock %}
+<hr>
