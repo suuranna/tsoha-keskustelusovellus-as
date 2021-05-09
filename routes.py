@@ -216,7 +216,7 @@ def result():
 @app.route("/give_permission/<int:id>")
 def give_permission(id):
     users = functions.get_users_with_permission(id)
-    return render_template("give_permission.html", id=id, users)
+    return render_template("give_permission.html", id=id, users=users)
 
 @app.route("/giving_permission", methods=["POST"])
 def giving_permission():
