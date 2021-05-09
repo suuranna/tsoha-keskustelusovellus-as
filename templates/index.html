@@ -41,7 +41,7 @@ Kommentteja tällä alueella: {{ comment[1] }} <br>
 {% endif %}
 <hr>
 {% endfor %}
-
+{% endblock %}
 {% else %}
 
 <h2>Kirjaudu sisään</h2>
@@ -52,5 +52,4 @@ Salasana:<br>
 <input type="password" name="password">
 <input type="submit" value="Kirjaudu">
 <a href="/signing_up">Eikö sinulla ole käyttäjää? Luo käyttäjä</a> <br>
-{% endblock %}
 {% endif %}
