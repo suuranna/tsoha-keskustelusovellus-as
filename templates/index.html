@@ -41,11 +41,9 @@ Kommentteja tällä alueella: {{ comment[1] }} <br>
 {% endif %}
 <hr>
 {% endfor %}
-{% endblock %}
 
 {% else %}
 
-{% block content %}
 <h2>Kirjaudu sisään</h2>
 <form action="/login" method="POST">
 Käyttäjätunnus:<br>
