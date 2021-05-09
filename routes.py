@@ -90,7 +90,7 @@ def delete_comment(id):
 @app.route("/deleting_comment", methods=["POST"])
 def deleting_comment():
     id = request.form["id"]
-    chain_id = request_form["chain_id"]
+    chain_id = request.form["chain_id"]
     functions.delete_comment(id)
     return render_template("success.html", message="Kommentti poistettu onnistuneesti", route="/chain/"+str(chain_id))
 
@@ -138,9 +138,10 @@ def edit_comment(id):
 @app.route("/editing_comment", methods=["POST"])
 def editing_comment():
     id = request.form["id"]
+    chain_id = request.form["chain_id"]
     content = request.form["content"]
     functions.edit_comment(id, content)
-    return render_template("success.html", message="Kommenttia muokattu onnistuneesti")
+    return render_template("success.html", message="Kommenttia muokattu onnistuneesti", route="/chain/"+str(chain_id))
 
 @app.route("/new_topic")
 def new_topic():

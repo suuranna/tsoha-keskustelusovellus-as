@@ -5,6 +5,7 @@
 <a href="/chain/{{ comment[2] }}">Peruuta</a> | 
 <input type="submit" value="Muokkaa kommenttia">
 <input type="hidden" name="id" value="{{ id }}">
+<input type="hidden" name="chain_id" value="{{ comment[2] }}">
 </form>
 {% else %}
 Sinulla ei ole oikeuksia tähän toimintoon, koska et ole kommentin luoja tai kommentti on poistettu. <br>
