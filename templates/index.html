@@ -1,4 +1,7 @@
 {% extends "layout.html" %}
+{% block title %}Alueet{% endblock %}
+{% block content %}
+
 {% if session.username %}
 <hr>
 TÄMÄ ON TESTI <br>
@@ -15,7 +18,6 @@ Hae hakusanalla: <input type="text" name="query">
 </form>
 <hr>
 
-{% block title %}Alueet{% endblock %}
 <h2>Alueet</h2>
 {% if session.admin %}
 <a href="/new_topic">Luo uusi alue</a> <br>
@@ -52,3 +54,4 @@ Salasana:<br>
 <input type="submit" value="Kirjaudu">
 <a href="/signing_up">Eikö sinulla ole käyttäjää? Luo käyttäjä</a> <br>
 {% endif %}
+{% endblock%}
