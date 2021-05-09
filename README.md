@@ -11,9 +11,7 @@ Salasana: salasana
 [Linkki Herokuun](https://tsoha-keskustelusovellus-as.herokuapp.com/)
 
 ## Keskustelusovellus
-Aion tehdä materiaalissa esitellyn keskustelusovelluksen. Näillä näkymin aion tehdä sovelluksen seuraavilla 
-ominaisuuksilla, mutta voi olla mahdollista, että lisään joitakin pieniä lisäjuttuja matkalla tai muutan jotakin vähän.
-
+Tein materiaalissa esitellyn keskustelusovelluksen. 
 
 Keskustelusovellus:
 
@@ -31,10 +29,3 @@ ja viimeksi lähetetyn viestin ajankohdan.
 - Käyttäjä voi etsiä kaikki viestit, joiden osana on annettu sana.
 - Ylläpitäjä voi lisätä ja poistaa keskustelualueita.
 - Ylläpitäjä voi luoda salaisen alueen ja määrittää, keillä käyttäjillä on pääsy alueelle.
-
-
-Mahdollisia lisäominaisuuksia/muutoksia, jos lajeentamiselle riittää aikaa ja sovellus ei paisu liian suureksi:
-
-- Käyttäjä voi tykätä ketjuista/aloitusviesteistä ja siihen liittyvistä viesteistä
-- Jokaisen alueen ketjut voivat olla joko ajankohdan tai tykkäysten mukaan järjestyksessä.
-- 
