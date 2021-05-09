@@ -3,15 +3,7 @@
 {% block content %}
 
 {% if session.username %}
-<hr>
-TÄMÄ ON TESTI <br>
-<p>Olet kirjautuneena nimellä {{ session.username }}
-<br>Kirjautuneen user id on {{ session.user_id }} <br>
-Kirjautunut käyttäjä on ylläpitäjä: {{ session.admin }} <br>
-Kirjautunut ssaa katsella alueita: {{ session.permissions }} 
-<a href="/logout">Kirjaudu ulos</a></p>
-<hr>
-
+TESTI
 <form action="/result" method="GET">
 Hae hakusanalla: <input type="text" name="query">
 <input type="submit" value="Hae">
@@ -25,7 +17,7 @@ Hae hakusanalla: <input type="text" name="query">
 {% endif %}
 {% for topic in topics %}
 {% if ( ( topic[2] ) or ( session.admin and not topic[2] ) or ( not session.admin and not topic[2] and topic[0] in session.permissions ) ) %}
-<h3>{{ topic[1] }}</h3> <br>
+<h4>{{ topic[1] }}</h4>
 Ketjuja tällä aluella: {{ topic[3] }} |
 {% for comment in comments %}
 {% if comment[0] == topic[0]  %}
@@ -51,7 +43,7 @@ Käyttäjätunnus:<br>
 <input type="text" name="username">
 Salasana:<br>
 <input type="password" name="password">
-<input type="submit" value="Kirjaudu">
+<input type="submit" value="Kirjaudu"> <br>
 <a href="/signing_up">Eikö sinulla ole käyttäjää? Luo käyttäjä</a> <br>
 {% endif %}
 {% endblock%}

@@ -7,5 +7,10 @@ Olet kirjautuneena nimellä {{ session.username }} |
 <a href="/logout">Kirjaudu ulos</a></p>
 <hr>
 {% endif %}
+<form action="/result" method="GET">
+Hae hakusanalla: <input type="text" name="query">
+<input type="submit" value="Hae">
+</form>
+<hr>
 {% block content %}{% endblock %}
 <hr>

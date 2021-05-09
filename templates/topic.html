@@ -1,7 +1,7 @@
-<p>Olet kirjautunut nimellä {{ session.username }}</p>
-<a href="/logout">Kirjaudu ulos</a>
-<hr>
-{{ topic[0] }} 
+{% extends "layout.html" %}
+{% block title %}{{ topic[0] }}{% endblock %}
+{% block content %}
+<h3>{{ topic[0] }}</h3> 
 <p>Ketjujen määrä tällä alueella: {{ amount }}</p>
 <a href="/">Takaisin alueisiin</a> |
 <a href="/new_chain/{{ id }}">Aloita uusi ketju</a> |  
@@ -21,3 +21,4 @@ Otsikko: {{ chain[1] }} <br>
 Aloitusviesti: {{ chain[2] }} <br>
 <p> </p>
 {% endfor %}
+{% endblock %}

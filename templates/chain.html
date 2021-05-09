@@ -1,13 +1,13 @@
+{% extends "layout.html "%}
+{% block title %} {{ chain_opening[2] }} {% endblock %}
+{% block content %}
 {% if not chain_opening[6] %}
-<p>Olet kirjautuneena nimellä {{ session.username }}
-<a href="/logout">Kirjaudu ulos</a></p>
-<hr>
 <a href="/topic/{{ chain_opening[0] }}">Takaisin ketjuihin</a>
 <hr>
+<h3> {{chain_opening[2]}} </h3>
 Ketjun aloittaja: {{ chain_opening[5] }} | Päiväys: {{ chain_opening[4] }}<br>
-Ketjun otsikko: {{ chain_opening[2] }}<br>
-Aloitusviesti: <br> {{ chain_opening[3] }}<br>
-Kommentit:<br>
+Aloitusviesti: <br> {{ chain_opening[3] }}
+<h5>Kommentit:</h5>
 <a href="/new_comment/{{ id }}">Uusi kommentti</a> <br>
 <hr>
 {% for comment in comments %}
@@ -26,3 +26,4 @@ Kommentti: <br> {{ comment[0] }} <br>
 Tämä ketju on poistettu <br>
 <a href="/">Etusivulle</a>
 {% endif %}
+{% endblock %}

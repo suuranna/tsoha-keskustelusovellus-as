@@ -202,8 +202,8 @@ def create_comment():
 
 @app.route("/chain/<int:id>")
 def chain(id):
-    if functions.is_deleted(id, "chain"):
-        return render_template("error.html", message="Tämä ketju on poistettu", route="/")
+    #if functions.is_deleted(id, "chain"):
+    #    return render_template("error.html", message="Tämä ketju on poistettu", route="/")
     chain_opening = functions.get_chain_opening(id)
     comments = functions.get_comments_of_a_chain(id)
     return render_template("chain.html", id=id, comments=comments, chain_opening=chain_opening)
