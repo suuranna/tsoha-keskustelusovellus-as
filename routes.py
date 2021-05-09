@@ -113,6 +113,7 @@ def edit_comment(id):
     comment = functions.get_comment(id)
     return render_template("edit_comment.html", comment=comment, id=id)
 
+@app.route("/editing_comment/<int:id>")
 def editing_comment(id):
     content = request.form["content"]
     functions.edit_comment(id, content)
@@ -122,7 +123,7 @@ def editing_comment(id):
 def new_topic():
     return render_template("new_topic.html")
 
-@app.route("create_topic", methods=["POST"])
+@app.route("/create_topic", methods=["POST"])
 def create_topic():
     topic = request.form["topic"]
     answer = request.form["answer"]
