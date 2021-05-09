@@ -68,7 +68,7 @@ def topic(id):
 def delete_topic(id):
     return render_template("delete_topic.html", id=id)
 
-@app.route("/deleting_topic/<int:id>")
+@app.route("/deleting_topic/<int:id>", methods=["POST"])
 def deleting_topic(id):
     functions.delete_topic(id)
     return render_template("success.html", message="Alue poistettu onnistuneesti")
@@ -83,13 +83,13 @@ def delete_comment(id):
     comment = functions.get_comment(id)
     return render_template("delete_comment.html", comment=comment, id=id)
 
-@app.route("/deleting_comment/<int:id>")
+@app.route("/deleting_comment/<int:id>", methods=["POST"])
 def deleting_comment(id):
     functions.delete_comment(id)
     return render_template("success.html", message="Kommentti poistettu onnistuneesti")
 
 
-@app.route("/deleting_chain/<int:id>")
+@app.route("/deleting_chain/<int:id>", methods=["POST"])
 def deleting_chain(id):
     functions.delete_chain(id)
     return render_template("success.html", message="Ketju poistettu onnistuneesti")
@@ -117,7 +117,7 @@ def edit_comment(id):
     comment = functions.get_comment(id)
     return render_template("edit_comment.html", comment=comment, id=id)
 
-@app.route("/editing_comment/<int:id>")
+@app.route("/editing_comment/<int:id>", methods=["POST"])
 def editing_comment(id):
     content = request.form["content"]
     functions.edit_comment(id, content)
@@ -187,12 +187,6 @@ def chain(id):
 @app.route("/result")
 def result():
     query = request.args["query"]
-    #sql = "select id, content, user_id, posting_date, chain_id from messages where begining = False and content LIKE :query"
-    #result = db.session.execute(sql, {"query":"%"+query+"%"})
-    #messages = result.fetchall()
-    #sql = "select id, content, user_id, posting_date, chain_id from messages where begining = True and content LIKE :query"
-    #result = db.session.execute(sql, {"query":"%"+query+"%"})
-    #op
     messages = functions.find_messages(query, False)
     opening_messages = functions.find_messages(query, True)
     return render_template("result.html", messages=messages, opening_messages=opening_messages)

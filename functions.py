@@ -130,7 +130,7 @@ def edit_chain(id, title, content):
     sql = "update chains set title=:title where id=:id"
     result = db.session.execute(sql, {"title":title, "id":id})
     sql = "update messages set content=:content where chain_id=:id"
-    result = db.session.execute(sql, {"title":title, "id":id})
+    result = db.session.execute(sql, {"content":content, "id":id})
     db.session.commit()
 
 def edit_comment(id, content):
