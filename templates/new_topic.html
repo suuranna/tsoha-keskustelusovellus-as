@@ -1,8 +1,14 @@
+{% if session.admin %}
 <form action="/create_topic" method="POST">
-<p>Aihe:<br>
-<input type="text" name="topic"></p><br>
-<p>Onko alue julkinen vai yksityinen?:</p><br>
+<p>Luo uusi alue</p>
+<p>Aihe:</p>
+<input type="text" name="topic">
+<p>Onko alue julkinen vai yksityinen?:</p>
 <input type="radio" name="answer" value="1">Julkinen<br>
 <input type="radio" name="answer" value="2">Yksityinen<br>
+<a href="/">Peruuta</a> | 
 <input type="submit" value="Luo uusi alue">
 </form>
+{% else %}
+Sinulla ei ole oikeutta luoda uutta aluetta, koska et ole ylläpitäjä <br>
+<a href="/">Etusivulle</a>

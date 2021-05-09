@@ -1,11 +1,13 @@
 {% if session.username == chain[5] and not chain[6] %}
-<form action="/editing_chain/{{ chain[1] }}" method="POST">
+<p>Muokkaa ketjun aloitusta</p>
+<form action="/editing_chain" method="POST">
 <p>Otsikko:<br>
-<input type="text" value="{{ chain[2] }}" name="title"></p><br>
-<p>Entinen aloitusviesti:</p><br>
+<input type="text" value="{{ chain[2] }}" name="title"></p>
+<p>Entinen aloitusviesti:</p>
 {{ chain[3] }} <br>
-<p>Uusi aloitusviesti:</p><br>
+<p>Uusi aloitusviesti:</p>
 <textarea name="content" rows="5" cols="40"></textarea><br>
+<a href="/chain/{{ 1 }}">Peruuta</a> | 
 <input type="submit" value="Muokkaa ketjun aloitusta">
 <input type="hidden" name="id" value="{{ chain[1] }}">
 </form>

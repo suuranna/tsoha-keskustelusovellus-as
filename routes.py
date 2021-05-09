@@ -107,7 +107,7 @@ def edit_chain(id):
     chain = functions.get_chain_opening(id)
     return render_template("edit_chain.html", chain=chain)
 
-@app.route("/editing_chain/", methods=["POST"])
+@app.route("/editing_chain", methods=["POST"])
 def editing_chain():
     id = request.form["id"]
     content = request.form["content"]
@@ -215,7 +215,8 @@ def result():
 
 @app.route("/give_permission/<int:id>")
 def give_permission(id):
-    return render_template("give_permission.html", id=id)
+    users = functions.get_users_with_permission(id)
+    return render_template("give_permission.html", id=id, users)
 
 @app.route("/giving_permission", methods=["POST"])
 def giving_permission():
@@ -224,7 +225,7 @@ def giving_permission():
     user_id = functions.get_user_id(username)
     if user_id != None:
         functions.give_permission(id, user_id)
-        return render_template("success.html", message="Oikeudet annettu onnistuneesti")
+        return render_template("success.html", message="Oikeudet annettu onnistuneesti", route="/give_permission/"+str(id))
     else:
         return render_template("error.html", message="Antamasi käyttäjänimi ei vastaa ketään käyttäjää", route="/give_permission/"+str(id))
 

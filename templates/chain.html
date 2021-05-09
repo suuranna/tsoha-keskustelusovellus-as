@@ -1,4 +1,4 @@
-{% if chain_opening[6] %}
+{% if not chain_opening[6] %}
 <p>Olet kirjautuneena nimellä {{ session.username }}
 <a href="/logout">Kirjaudu ulos</a></p>
 <hr>
@@ -23,5 +23,6 @@ Kommentti: <br> {{ comment[0] }} <br>
 <p> </p>
 {% endfor %}
 {% else %}
-
+Tämä ketju on poistettu <br>
+<a href="/">Etusivulle</a>
 {% endif %}

@@ -3,7 +3,12 @@
 <form action="/giving_permission" method="POST">
 <p>Anna käyttäjänimi, jolle haluat antaa oikeudet tämän alueen tarkasteluun:<br>
 <input type="text" name="username"></p><br>
-<input type="submit" value="Anna oikeudet">
+<a href="/">Peruuta</a> | 
+<input type="submit" value="Anna oikeudet"> <br>
+Käyttäjät, joilla on oikeudet tarkastella tätä aluetta:
+{% for user in users %}
+<br> user[0]
+{% endfor %}
 <input type="hidden" name="id" value="{{ id }}">
 </form>
 {% else %}

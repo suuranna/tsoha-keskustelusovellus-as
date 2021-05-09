@@ -1,8 +1,14 @@
+{% if session.username %}
 <form action="/create_chain" method="POST">
-<p>Otsikko:<br>
-<input type="text" name="title"></p><br>
-<p>Aloitusviesti:</p><br>
+<p>Luo uusi ketju</p>
+<p>Otsikko:</p>
+<input type="text" name="title"><br>
+<p>Aloitusviesti:</p>
 <textarea name="content" rows="5" cols="40"></textarea><br>
 <input type="submit" value="Luo uusi ketju">
 <input type="hidden" name="id" value="{{ id }}">
 </form>
+{% else %}
+Sinun täytyy olla kirjautuneena sisään luodaksesi uuden ketjun <br>
+<a href="/">Kirjaudu sisään etusivulta</a>
+{% endif %}

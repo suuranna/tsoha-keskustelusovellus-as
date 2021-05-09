@@ -4,7 +4,11 @@
 {{ topic[0] }} 
 <p>Ketjujen määrä tällä alueella: {{ amount }}</p>
 <a href="/">Takaisin alueisiin</a> |
-<a href="/new_chain/{{ id }}">Aloita uusi ketju</a> <br>
+<a href="/new_chain/{{ id }}">Aloita uusi ketju</a> |  
+{% if session.admin %}
+<a href="/delete_topic/{{ id }}">Poista alue</a>
+{% endif %}
+<br>
 <hr>
 {% for chain in chains %}
 Ketjun aloittaja: {{ chain[4] }} | Päiväys: {{ chain[3] }} | <a href="/chain/{{ chain[0] }}">Tarkastele ketjua</a> | 
