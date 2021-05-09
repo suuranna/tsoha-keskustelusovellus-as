@@ -1,10 +1,12 @@
 {% if session.user_id == comment[1] %}
-<form action="/editing_comment/{{ id }}" method="POST">
+<form action="/editing_comment" method="POST">
 <p>Kommentti:</p><br>
 <textarea value="{{ comment[0] }}" name="content" rows="5" cols="40"></textarea><br>
+<a href="/chain/{{ comment[2] }}">Peruuta</a> | 
 <input type="submit" value="Muokkaa kommenttia">
+<input type="hidden" name="id" value="{{ id }}">
 </form>
 {% else %}
-Sinulla ei ole oikeuksia tähän toimintoon, koska et ole kommentin luoja. <br>
+Sinulla ei ole oikeuksia tähän toimintoon, koska et ole kommentin luoja tai kommentti on poistettu. <br>
 <a href="/">Etusivulle</a>
 {% endif %}

@@ -1,7 +1,8 @@
 {% if session.username %}
 <p>Olet kirjautuneena nimellä {{ session.username }}
 <br>Kirjautuneen user id on {{ session.user_id }} <br>
-Kirjautunut käyttäjä on ylläpitäjä: {{ session.admin }} <br> 
+Kirjautunut käyttäjä on ylläpitäjä: {{ session.admin }} <br>
+Kirjautunut ssaa katsella alueita: {{ session.permissions }} 
 <a href="/logout">Kirjaudu ulos</a></p>
 <hr>
 
@@ -16,14 +17,14 @@ Hae hakusanalla: <input type="text" name="query">
 Alueet:
 <hr>
 {% for topic in topics %}
-{% if ( ( topic[2] ) or ( session.admin and not topic[2] ) or ( not topic[4] ) ) %}
+{% if ( ( topic[2] ) or ( session.admin and not topic[2] ) or ( not session.admin and not topic[2] and topic[0] in session.permissions ) ) %}
 {{ topic[1] }} <br>
 Ketjuja tällä aluella: {{ topic[3] }} |
 {% for comment in comments %}
 {% if comment[0] == topic[0]  %}
 Kommentteja tällä alueella: {{ comment[1] }} <br>
 {% endif %}
-{% endfor%}
+{% endfor %}
 <a href="/topic/{{ topic[0] }}">Tarkastele alueen ketjuja</a> |
 {% if session.admin %}
 <a href="/delete_topic/{{ topic[0] }}">Poista alue</a> |

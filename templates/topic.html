@@ -1,7 +1,7 @@
 <p>Olet kirjautunut nimellä {{ session.username }}</p>
 <a href="/logout">Kirjaudu ulos</a>
 <hr>
-{{ topic }} 
+{{ topic[0] }} 
 <p>Ketjujen määrä tällä alueella: {{ amount }}</p>
 <a href="/">Takaisin alueisiin</a> |
 <a href="/new_chain/{{ id }}">Aloita uusi ketju</a> <br>

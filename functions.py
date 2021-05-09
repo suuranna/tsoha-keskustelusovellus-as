@@ -26,7 +26,8 @@ def count_users_with_same_username(username):
 
 def get_topics():
     #sql = "select t.id, t.topic, t.public, count(c.topics_id) from topics t, chains c where t.id=c.topics_id group by t.id"
-    sql = "select t.id, t.topic, t.public, count(c.topics_id), t.deleted from topics t left join chains c on t.id=c.topics_id and c.deleted=False and t.deleted=False group by t.id order by t.id desc"
+    #sql = "select t.id, t.topic, t.public, count(c.topics_id), from topics t left join chains c on t.id=c.topics_id and c.deleted=False and t.deleted=False group by t.id order by t.id desc"
+    sql = "select t.id, t.topic, t.public, count(c.topics_id) from topics t left join chains c on t.id=c.topics_id and c.deleted=False group by t.id having t.id in (select id from topics where deleted=False) order by t.id desc"
     result = db.session.execute(sql)
     topics = result.fetchall()
     return topics
@@ -103,7 +104,7 @@ def get_chains_from_topic(id):
     return chains
 
 def get_chain_opening(id):
-    sql = "select c.topics_id, c.id, c.title, m.content, m.posting_date, u.username from chains c, messages m, users u where m.chain_id=c.id and m.begining=True and m.user_id=u.id and c.id=:id"
+    sql = "select c.topics_id, c.id, c.title, m.content, m.posting_date, u.username, c.deleted from chains c, messages m, users u where m.chain_id=c.id and m.begining=True and m.user_id=u.id and c.id=:id"
     result = db.session.execute(sql, {"id":id})
     chain_opening = result.fetchone()
     return chain_opening
@@ -115,9 +116,9 @@ def get_comments_of_a_chain(id):
     return comments
 
 def get_topic_title(id):
-    sql = "select topic from topics where id=:id"
+    sql = "select topic, deleted from topics where id=:id"
     result = db.session.execute(sql, {"id":id})
-    title = result.fetchone()[0]
+    title = result.fetchone()
     return title
 
 def find_messages(query, begining):
@@ -139,7 +140,7 @@ def edit_comment(id, content):
     db.session.commit()
 
 def get_comment(id):
-    sql = "select content, user_id, chain_id from messages where id=:id"
+    sql = "select content, user_id, chain_id, deleted from messages where id=:id"
     result = db.session.execute(sql, {"id":id})
     comment = result.fetchone()
     return comment
@@ -148,3 +149,26 @@ def give_permission(id, user_id):
     sql = "insert into private_topics_permissions (topics_id, user_id) values (:id, :user_id)"
     result = db.session.execute(sql, {"id":id, "user_id":user_id})
     db.session.commit()
+
+def get_users_permissions(id):
+    sql = "select topics_id from private_topics_permissions where user_id=:id"
+    result = db.session.execute(sql, {"id":id})
+    permissions = result.fetchall()
+    permissions_as_list = []
+    for permission in permissions:
+        permissions_as_list.append(permission[0])
+    return permissions_as_list
+
+def is_deleted(id, object):
+    if object == "topic":
+        sql = "select deleted from topics where id=:id"
+        result = db.session.execute(sql, {"id":id})
+        deleted = result.fetchone()[0]
+        return deleted
+    elif object == "chain":
+        sql = "select deleted from chains where id=:id"
+        result = db.session.execute(sql, {"id":id})
+        deleted = result.fetchone()[0]
+        return deleted
+    else:
+        return True

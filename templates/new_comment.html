@@ -1,6 +1,7 @@
-<form action="/create_comment/{{ id }}" method="POST">
+<form action="/create_comment" method="POST">
 <p>Uusi kommentti:</p>
 <textarea name="content" rows="5" cols="40"></textarea><br>
 <input type="submit" value="Kommentoi">
+<input type="hidden" name="id" value="{{ id }}">
 </form>
 

@@ -23,6 +23,7 @@ def login():
             session["username"] = username
             session["user_id"] = functions.get_user_id(username)
             session["admin"] = functions.is_admin(username)
+            session["permissions"] = functions.get_users_permissions(session["user_id"])
             return redirect("/")
         else:
             return render_template("error.html", message="Käyttäjänimi tai salasana on väärä", route="/")
@@ -59,6 +60,8 @@ def logout():
 
 @app.route("/topic/<int:id>")
 def topic(id):
+    if functions.is_deleted(id, "topic"):
+        return render_template("error.html", message="Tämä alue on poistettu", route="/")
     topic = functions.get_topic_title(id)
     chains = functions.get_chains_from_topic(id)
     amount = functions.get_the_amount_of_chains_in_one_topic(id)
@@ -68,31 +71,35 @@ def topic(id):
 def delete_topic(id):
     return render_template("delete_topic.html", id=id)
 
-@app.route("/deleting_topic/<int:id>", methods=["POST"])
-def deleting_topic(id):
+@app.route("/deleting_topic", methods=["POST"])
+def deleting_topic():
+    id = request.form["id"]
     functions.delete_topic(id)
-    return render_template("success.html", message="Alue poistettu onnistuneesti")
+    return render_template("success.html", message="Alue poistettu onnistuneesti", route="/")
 
 @app.route("/delete_chain/<int:id>")
 def delete_chain(id):
     chain = functions.get_chain_opening(id)
-    return render_template("delete_chain.html", chain=chain, back_route="/chain/"+str(id), route="/deleting_chain/"+str(id))
+    return render_template("delete_chain.html", chain=chain)
 
 @app.route("/delete_comment/<int:id>")
 def delete_comment(id):
     comment = functions.get_comment(id)
     return render_template("delete_comment.html", comment=comment, id=id)
 
-@app.route("/deleting_comment/<int:id>", methods=["POST"])
-def deleting_comment(id):
+@app.route("/deleting_comment", methods=["POST"])
+def deleting_comment():
+    id = request.form["id"]
+    chain_id = request_form["chain_id"]
     functions.delete_comment(id)
-    return render_template("success.html", message="Kommentti poistettu onnistuneesti")
+    return render_template("success.html", message="Kommentti poistettu onnistuneesti", route="/chain/"+str(chain_id))
 
-
-@app.route("/deleting_chain/<int:id>", methods=["POST"])
-def deleting_chain(id):
+@app.route("/deleting_chain", methods=["POST"])
+def deleting_chain():
+    id = request.form["id"]
+    topics_id = request.form["topics_id"]
     functions.delete_chain(id)
-    return render_template("success.html", message="Ketju poistettu onnistuneesti")
+    return render_template("success.html", message="Ketju poistettu onnistuneesti", route="/topic/"+str(topics_id))
 
 
 @app.route("/edit_chain/<int:id>")
@@ -100,13 +107,24 @@ def edit_chain(id):
     chain = functions.get_chain_opening(id)
     return render_template("edit_chain.html", chain=chain)
 
-@app.route("/editing_chain/<int:id>/", methods=["POST"])
-def editing_chain(id):
+@app.route("/editing_chain/", methods=["POST"])
+def editing_chain():
+    id = request.form["id"]
     content = request.form["content"]
     title = request.form["title"]
-    #return redirect("/chain/"+str(id))
+    route = "/edit_chain/"+str(id)
+    if len(content) > 150:
+        return render_template("error.html", message="Uusi aloitusviesti on liian pitkä", route=route)
+    if len(content) == 0:
+        return render_template("error.html", message="Ketjulta puuttuu aloitusviesti", route=route)
+    if len(title) > 50:
+        return render_template("error.html", message="Uusi otsikko on liian pitkä", route=route)
+    if len(title) == 0:
+        return render_template("error.html", message="Ketjulta puuttuu otsikko", route=route)
+    if len(title) == 0 and len(content) == 0:
+        return render_template("error.html", message="Ketju ei voi olla tyhjä", route=route)
     functions.edit_chain(id, title, content)
-    return render_template("success.html", message="Ketjua muokattu onnistuneesti")
+    return render_template("success.html", message="Ketjua muokattu onnistuneesti", route="/chain/"+str(id))
 
 @app.route("/new_comment/<int:id>")
 def new_comment(id):
@@ -117,8 +135,9 @@ def edit_comment(id):
     comment = functions.get_comment(id)
     return render_template("edit_comment.html", comment=comment, id=id)
 
-@app.route("/editing_comment/<int:id>", methods=["POST"])
-def editing_comment(id):
+@app.route("/editing_comment", methods=["POST"])
+def editing_comment():
+    id = request.form["id"]
     content = request.form["content"]
     functions.edit_comment(id, content)
     return render_template("success.html", message="Kommenttia muokattu onnistuneesti")
@@ -148,8 +167,9 @@ def create_topic():
 def new_chain(id):
     return render_template("new_chain.html", id=id)
 
-@app.route("/create_chain/<int:id>", methods=["POST"])
-def create_chain(id):
+@app.route("/create_chain", methods=["POST"])
+def create_chain():
+    id = request.form["id"]
     content = request.form["content"]
     title = request.form["title"]
     route = "/new_chain/"+str(id)
@@ -167,8 +187,8 @@ def create_chain(id):
     functions.create_a_new_message(content, session["user_id"], chain_id, True)
     return redirect("/topic/"+str(id))
 
-@app.route("/create_comment/<int:id>", methods=["POST"])
-def create_comment(id):
+@app.route("/create_comment", methods=["POST"])
+def create_comment():
     content = request.form["content"]
     route = "/new_comment/"+str(id)
     if len(content) > 100:
@@ -180,6 +200,8 @@ def create_comment(id):
 
 @app.route("/chain/<int:id>")
 def chain(id):
+    if functions.is_deleted(id, "chain"):
+        return render_template("error.html", message="Tämä ketju on poistettu", route="/")
     chain_opening = functions.get_chain_opening(id)
     comments = functions.get_comments_of_a_chain(id)
     return render_template("chain.html", id=id, comments=comments, chain_opening=chain_opening)
@@ -200,9 +222,11 @@ def giving_permission():
     id = request.form["id"]
     username = request.form["username"]
     user_id = functions.get_user_id(username)
-    if user_id == None:
+    if user_id != None:
+        functions.give_permission(id, user_id)
+        return render_template("success.html", message="Oikeudet annettu onnistuneesti")
+    else:
         return render_template("error.html", message="Antamasi käyttäjänimi ei vastaa ketään käyttäjää", route="/give_permission/"+str(id))
-    functions.give_permission(id, user_id)
-    return render_template("success.html", message="Oikeudet annettu onnistuneesti")
+
 
 

@@ -1,7 +1,8 @@
-<form action="/create_chain/{{ id }}" method="POST">
+<form action="/create_chain" method="POST">
 <p>Otsikko:<br>
 <input type="text" name="title"></p><br>
 <p>Aloitusviesti:</p><br>
 <textarea name="content" rows="5" cols="40"></textarea><br>
 <input type="submit" value="Luo uusi ketju">
+<input type="hidden" name="id" value="{{ id }}">
 </form>
